@@ -2,7 +2,10 @@ import React from 'react';
 import {
   View,
   Text,
-  TouchableOpacity
+  Image,
+  TouchableOpacity,
+  SafeAreaView,
+  TextInput,
 } from 'react-native';
 
 const Home = ({ navigation }) => {
