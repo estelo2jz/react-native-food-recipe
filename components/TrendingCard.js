@@ -1,19 +1,84 @@
 import React from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Platform, Image } from 'react-native'
 
-import { BlurView } from '@react-native-community/blur';
+// import { BlurView } from '@react-native-community/blur';
+import { BlurView } from 'expo-blur';
 
 import { COLORS, SIZE, FONTS, icons, SIZES } from '../constants';
+import { lightgray } from 'color-name';
+
+const RecipeCardDetails = ({ recipeItem }) => {
+  return (
+    <View
+      style={{
+        flex: 1,
+      }}
+    >
+      {/* Name & Bookmark */}
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          justifyContent: 'space-between'
+        }}
+      >
+        <Text
+          style={{
+            width: "70%",
+            color: COLORS.white,
+            ...FONTS.h3,
+            fontSize: 18,
+          }}
+        >
+          {recipeItem.name}
+        </Text>
+
+        <Image 
+          source={recipeItem.isBookmark ? icons.bookmarkFilled : icons.bookmark}
+          style={{
+            width: 20,
+            height: 20,
+            marginRight: SIZES.base,
+            tintColor: COLORS.darkGreen
+          }}
+        />
+      </View>
+
+      {/* Duration & Serving */}
+      <Text
+        style={{
+          color: COLORS.white,
+          ...FONTS.body4
+        }}
+      >
+        {recipeItem.duration} | {recipeItem.serving} Serving
+      </Text>
+    </View>
+  )
+}
 
 const RecipeCardInfo = ({recipeItem}) => {
-  return (
-    <BlurView
-      blurType="dark"
-      style={styles.recipeCardContainer}
-    >
-
-    </BlurView>
-  )
+  if (Platform.OS === 'android') {
+    return (
+      <BlurView
+        blurType="dark"
+        style={styles.recipeCardContainer}
+      >
+        <RecipeCardDetails 
+          recipeItem={recipeItem}
+        />
+      </BlurView>
+    )
+  } else {
+    return (
+      <View
+        style={{
+          ...styles.recipeCardContainer,
+          backgroundColor: COLORS.transparentDarkGray
+        }}
+      ></View>
+    )
+  }
 }
 
 const TrendingCard = ({ containerStyle, recipeItem, onPress }) => {
@@ -33,7 +98,7 @@ const TrendingCard = ({ containerStyle, recipeItem, onPress }) => {
         source={recipeItem.image}
         resizeMode="cover"
         style={{
-          marginLeft: 20,
+          // marginLeft: 20,
           width: 250,
           height: 350,
           borderRadius: SIZES.radius
